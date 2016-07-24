@@ -1,7 +1,8 @@
 # nice-things #################################################################
 
 This whole repo is just a bunch of text about nice things, all of which have
-something to do with software development.
+something to do with software development. These are just my personal
+preferences, you may agree or disagree.
 
 
 ## Java
@@ -53,4 +54,23 @@ so that it does not rot and become difficult to understand or modify.
 
 Code that is not covered by automated tests can't be confidently refactored.
 
-One definition of legacy code is a codebase that is not covered by automated tests.
+One definition of legacy code is a codebase that is not covered by automated
+tests.
+
+
+## Infrastructure as code
+
+Automate all server configuration as scripts and keep the scripts in source
+control.
+
+Otherwise you don't really know how your server is configured and you are
+hesitant to replace it.
+
+
+## Build your artifact once
+
+The same artifact should flow through the release process from CI build to
+production. Don't build for each deploy or build after QA gives go-ahead.
+
+Otherwise you don't really know that the thing that passed testing is the same
+as the thing you have in production.
