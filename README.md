@@ -17,3 +17,7 @@
 - near real time multi-datacenter replication is relatively easy
 - SQL-like syntax, tables, columns
 
+Caveats:
+- no joins. Denormalize your data, perhaps using views or CQRS
+- Automating backups can be a whole project
+
