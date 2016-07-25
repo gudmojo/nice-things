@@ -74,3 +74,18 @@ production. Don't build for each deploy or build after QA gives go-ahead.
 
 Otherwise you don't really know that the thing that passed testing is the same
 as the thing you have in production.
+
+
+## Hexagonal architecture (ports & adapters)
+
+Keep a clear separation between your application's business logic and the code
+that integrates to external actors such as the UI and the database.
+
+Example: The business logic needs to look up currency exchange rates via an
+external service. In that case the integration (constructing a json request and
+sending it to a specific server) is written as a class unknown to the core
+domain, but implementing an interface that the core domain specifies.
+
+When this approach is used it's possible to achieve high flexibility in
+switching to a different implementation of the same abstract service. It also
+keeps the business logic clean and readable.
