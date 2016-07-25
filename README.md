@@ -89,3 +89,21 @@ domain, but implementing an interface that the core domain specifies.
 When this approach is used it's possible to achieve high flexibility in
 switching to a different implementation of the same abstract service. It also
 keeps the business logic clean and readable.
+
+
+## Avoid global state, e.g. the *static* keyword
+
+Use instance variables rather than class variables, and objects rather than
+static. That way, global state can be better avoided, components can be tested
+without unintended side effects, and the components are more loosely coupled
+from each other.
+
+
+## Dependency Injection via constructor
+
+I think this should be considered as the default way of initializing service
+objects. For example if the NetWorthService uses a CurrencyExchangeService,
+it would receive the reference to it when it is constructed.
+
+If you're using a dependency injection framework, it probably supports this by
+putting an annotation on the constructor rather than on the member variables.
