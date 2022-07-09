@@ -1,0 +1,7 @@
+on: [push]
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Lint Markdown
+      uses: DavidAnson/markdownlint-cli2-action@v5.1.0
