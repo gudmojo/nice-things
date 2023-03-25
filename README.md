@@ -99,6 +99,20 @@ of rebasing and merging one PR at a time.
 
 GitHub.com and GitLab have built in support for merge queues.
 
+## Integration testing
+
+Deploy to a temporary environment and run some tests that will exercise the system
+from the api to verify that the application actually works as a whole.
+
+There are different ways to do this:
+
+- Deploy on the CI runner using docker-compose. The disadvantage here is that your
+docker-compose configuration has nothing in common with the way you deploy to production.
+- Deploy to a fresh namespace in a kubernetes cluster. Benefit of this is that the
+environment can be kept around if the build fails and then you can go and poke around
+to see what caused the failure. Just create some mechanism that will delete the namespaces
+after a certain time.
+
 ## Skaffold
 
  Skaffold (an open source project from Google) is a CLI for local development
@@ -160,4 +174,3 @@ Caveats:
 - mature ecosystem of libraries and tools
 - fast (on the server)
 - IntelliJ is a great IDE
-
