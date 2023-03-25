@@ -1,8 +1,7 @@
 # gudmojo's list of nice things
 
-This whole repo is just a bunch of text about nice things, most of which have
-something to do with software development. These are just my personal
-preferences, you may agree or disagree.
+My list of nice things which have something to do with software development.
+These are my personal preferences, you may agree or disagree.
 
 ## Go
 
@@ -35,7 +34,8 @@ preferences, you may agree or disagree.
 
 Caveats:
 
-- no joins. Denormalize your data, perhaps using views or CQRS
+- It's total overkill for small projects and has higher ops overhead than simple managed datastores.
+- No joins. Denormalize your data, perhaps using views or CQRS
 - Automating backups can be a whole project
 
 ## Refactoring and legacy code
@@ -47,6 +47,7 @@ Before adding a feature, refactor the code in a way that will make the feature
 straight-forward to implement.
 
 Code that is not covered by automated tests can't be confidently refactored.
+Strong type systems also help a lot with that confidence.
 
 One definition of legacy code is a codebase that is not covered by automated
 tests.
@@ -56,8 +57,26 @@ tests.
 Terraform is the default. If your infrastructure can be productively managed
 using Terraform, do that.
 
-I'm interested in looking at Crossplane as a partial replacement for Terraform,
-but I haven't fully explored it
+If you're trying to provide self-service for an organization, requiring everyone
+to make PRs to your Terraform can be a tall order. You might provide them with
+published modules instead that they can instantiate in their own repo, but then
+you have a dilemma about how much access that workspace will need. Will it need
+edit access to shared fundamentals that you really don't want others to mess with?
+When you get into that territory you might consider wrapping that access in code
+that will control who is allowed to do exactly what and validates that the change
+meets the standards and boundaries that you have established.
+
+## GitOps
+
+Have you ever been dealing with a production incident that could maybe be fixed by a
+small change to your Kubernetes pod spec and now you have the choice between
+making the change in the application repo and waiting 10 minutes for CI to run,
+or you could kubectl edit the pod spec directly and be ready to revert just as quickly
+if it fails. Wouldn't it be better to be able to make your change to the gitops repo
+and have it applied without waiting for the application code to go through all the CI steps?
+By having your k8s yaml manifests in a separate repo, "downstream" of the application,
+you get the best of both worlds: Clear audit trail of *what* changed *when* by *who*,
+and ability to act fast when you need to reconfigure something.
 
 ## Lean on your cloud provider
 
