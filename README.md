@@ -12,32 +12,6 @@ These are my personal preferences, you may agree or disagree.
 - Recommended reading: Learning Go: An Idiomatic Approach to Real-World Go
   Programming by Jon Bodner
 
-## Java
-
-- I used to write a lot of Java in the past, but now I tend to lean towards Go.
-- statically typed. I find it easier to read and modify code if I know the
-  types of things.
-- mature ecosystem of libraries and tools
-- fast (on the server)
-- IntelliJ is a great IDE
-
-## Cassandra NoSQL database
-
-- really fast
-- instant strong consistency is possible using *quorum* writes and reads, even
-  if a node is down.
-- linear horizontal scaling up to millions of writes/sec
-- masterless. no single point of failure
-- no wait for failover when a node goes down
-- near real time multi-datacenter replication is relatively easy
-- SQL-like syntax, tables, columns
-
-Caveats:
-
-- It's total overkill for small projects and has higher ops overhead than simple managed datastores.
-- No joins. Denormalize your data, perhaps using views or CQRS
-- Automating backups can be a whole project
-
 ## Refactoring and legacy code
 
 As new features are added to the codebase, it should be habitually refactored
@@ -97,36 +71,6 @@ Otherwise you don't really know that the thing that passed testing is the same
 as the thing you have in production. Also, an extra build is a waste of time
 and resources.
 
-## Hexagonal architecture (ports & adapters)
-
-Keep a clear separation between your application's business logic and the code
-that integrates to external actors such as the UI and the database.
-
-Example: The business logic needs to look up currency exchange rates via an
-external service. In that case the integration (constructing a json request and
-sending it to a specific server) is written in a module unknown to the core
-domain, but implementing an interface that the core domain specifies.
-
-When this approach is used it's possible to achieve high flexibility in
-switching to a different implementation of the same abstract service. It also
-keeps the business logic clean and readable.
-
-## Dependency Injection via constructor
-
-I prefer to do my dependency injection manually. Each service type has a
-constructor that receives all the dependencies that the service object needs.
-The main function or entry point for the application is the place where I wire
-up all the services manually by invoking constructors:
-
-    dbConn = postgres.NewConnection(url)
-    userRepo = postgres.NewUserRepo(dbConn)
-    bookRepo = postgres.NewBookRepo(dbConn)
-    server = server.New(userRepo, bookRepo)
-
-The main function will be long and could be seen as a bit unvieldy, but in
-my opinion it's nice to do it all there so you can see explicitly how everything
-is wired and keep the rest of the application clean.
-
 ## Team-owned services
 
 A service should belong to a *single* team. They have the freedom to evolve it
@@ -160,3 +104,60 @@ GitHub.com and GitLab have built in support for merge queues.
  Skaffold (an open source project from Google) is a CLI for local development
  of a Kubernetes application, and can also be used in CI/CD so that both
  development and production deployments use the same tool.
+
+## Hexagonal architecture (ports & adapters)
+
+Keep a clear separation between your application's business logic and the code
+that integrates to external actors such as the UI and the database.
+
+Example: The business logic needs to look up currency exchange rates via an
+external service. In that case the integration (constructing a json request and
+sending it to a specific server) is written in a module unknown to the core
+domain, but implementing an interface that the core domain specifies.
+
+When this approach is used it's possible to achieve high flexibility in
+switching to a different implementation of the same abstract service. It also
+keeps the business logic clean and readable.
+
+## Dependency Injection via constructor
+
+I prefer to do my dependency injection manually. Each service type has a
+constructor that receives all the dependencies that the service object needs.
+The main function or entry point for the application is the place where I wire
+up all the services manually by invoking constructors:
+
+    dbConn = postgres.NewConnection(url)
+    userRepo = postgres.NewUserRepo(dbConn)
+    bookRepo = postgres.NewBookRepo(dbConn)
+    server = server.New(userRepo, bookRepo)
+
+The main function will be long and could be seen as a bit unvieldy, but in
+my opinion it's nice to do it all there so you can see explicitly how everything
+is wired and keep the rest of the application clean.
+
+## Cassandra NoSQL database
+
+- really fast
+- instant strong consistency is possible using *quorum* writes and reads, even
+  if a node is down.
+- linear horizontal scaling up to millions of writes/sec
+- masterless. no single point of failure
+- no wait for failover when a node goes down
+- near real time multi-datacenter replication is relatively easy
+- SQL-like syntax, tables, columns
+
+Caveats:
+
+- It's total overkill for small projects and has higher ops overhead than simple managed datastores.
+- No joins. Denormalize your data, perhaps using views or CQRS
+- Automating backups can be a whole project
+
+## Java
+
+- I used to write a lot of Java in the past, but now I tend to lean towards Go.
+- statically typed. I find it easier to read and modify code if I know the
+  types of things.
+- mature ecosystem of libraries and tools
+- fast (on the server)
+- IntelliJ is a great IDE
+
